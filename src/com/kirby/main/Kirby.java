@@ -17,15 +17,16 @@ import javax.swing.JFrame;
 import com.kirby.entities.Entity;
 import com.kirby.entities.Player;
 import com.kirby.graficos.Spritesheet;
+import com.kirby.world.World;
 
 public class Kirby extends Canvas implements Runnable, KeyListener{
 	
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	public  final static int WIDTH = 260;
-	public static final int HEIGHT = 180;
-	private final int SCALE = 3;
+	public  final static int WIDTH = 240;
+	public static final int HEIGHT = 160;
+	private final int SCALE = 2;
 	
 	private List<Entity> entities;
 	
@@ -34,6 +35,8 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 	private BufferedImage image;
 	
 	private Player player;
+	
+	public static World world;
 
 	public Kirby() {
 		addKeyListener(this);
@@ -42,7 +45,7 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
-		
+		world = new World("/map.png"); 
 		player = new Player(0,0,32,32, spritesheet.getSprite(0, 0, 32, 32));
 		entities.add(player);
 	}
@@ -88,6 +91,7 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 		}
 		g.setColor(new Color(10,19,19));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		world.render(g);
 		for(int i = 0; i < entities.size(); i++ ) {
 			Entity e = entities.get(i);
 			e.render(g);

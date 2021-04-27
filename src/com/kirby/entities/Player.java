@@ -50,7 +50,6 @@ public class Player extends Entity{
 		}
 		if(moved) {
 			frames++;
-			System.out.println("frame");
 			if(frames == maxframes) {
 				frames = 0;
 				index++;
