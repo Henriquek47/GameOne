@@ -18,28 +18,32 @@ import com.kirby.entities.Entity;
 import com.kirby.entities.Player;
 import com.kirby.graficos.Spritesheet;
 
-public class Kirby extends Canvas implements Runnable{
+public class Kirby extends Canvas implements Runnable, KeyListener{
 	
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	public  final static int WIDTH = 240;
-	public static final int HEIGHT = 160;
+	public  final static int WIDTH = 260;
+	public static final int HEIGHT = 180;
 	private final int SCALE = 3;
 	
 	private List<Entity> entities;
-	public Spritesheet spritesheet;
+	
+	public static Spritesheet spritesheet;
 	
 	private BufferedImage image;
+	
+	private Player player;
 
 	public Kirby() {
+		addKeyListener(this);
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
 		
-		Player player = new Player(0,0,32,32, spritesheet.getSprite(0, 0, 32, 32));
+		player = new Player(0,0,32,32, spritesheet.getSprite(0, 0, 32, 32));
 		entities.add(player);
 	}
 	
@@ -82,6 +86,8 @@ public class Kirby extends Canvas implements Runnable{
 			this.createBufferStrategy(3);
 			return;
 		}
+		g.setColor(new Color(10,19,19));
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		for(int i = 0; i < entities.size(); i++ ) {
 			Entity e = entities.get(i);
 			e.render(g);
@@ -123,6 +129,36 @@ public class Kirby extends Canvas implements Runnable{
 			}			
 		}
 		stop();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||
+				e.getKeyCode() == KeyEvent.VK_D) {
+				player.right = true;
+			}else if(e.getKeyCode() == KeyEvent.VK_LEFT ||
+					e.getKeyCode() == KeyEvent.VK_A) {
+				player.left = true;
+			}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||
+				e.getKeyCode() == KeyEvent.VK_D) {
+				player.right = false;
+			}else if(e.getKeyCode() == KeyEvent.VK_LEFT ||
+					e.getKeyCode() == KeyEvent.VK_A) {
+				player.left = false;
+			}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
