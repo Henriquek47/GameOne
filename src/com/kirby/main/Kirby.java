@@ -14,18 +14,33 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.kirby.entities.Entity;
+import com.kirby.entities.Player;
+import com.kirby.graficos.Spritesheet;
+
 public class Kirby extends Canvas implements Runnable{
 	
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	public  final static int WIDTH = 260;
-	public static final int HEIGHT = 180;
+	public  final static int WIDTH = 240;
+	public static final int HEIGHT = 160;
 	private final int SCALE = 3;
+	
+	private List<Entity> entities;
+	public Spritesheet spritesheet;
+	
+	private BufferedImage image;
 
 	public Kirby() {
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		entities = new ArrayList<Entity>();
+		spritesheet = new Spritesheet("/spritesheet.png");
+		
+		Player player = new Player(0,0,32,32, spritesheet.getSprite(0, 0, 32, 32));
+		entities.add(player);
 	}
 	
 	public void initFrame() {
@@ -54,11 +69,27 @@ public class Kirby extends Canvas implements Runnable{
 	}
 	
 	public void tick() {
-		
+		for(int i = 0; i < entities.size(); i++){
+			Entity e = entities.get(i);
+			e.tick();
+		}
 	}
 	
 	public void render() {
-		
+		BufferStrategy bs = this.getBufferStrategy();
+		Graphics g = image.getGraphics();
+		if(bs == null) {
+			this.createBufferStrategy(3);
+			return;
+		}
+		for(int i = 0; i < entities.size(); i++ ) {
+			Entity e = entities.get(i);
+			e.render(g);
+		}
+		g.dispose();
+		g = bs.getDrawGraphics();
+		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		bs.show();
 	}
 	
 	
