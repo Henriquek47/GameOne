@@ -24,17 +24,18 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	public  final static int WIDTH = 240;
-	public static final int HEIGHT = 160;
+	public  final static int WIDTH = 360;
+	public static final int HEIGHT = 220;
 	private final int SCALE = 2;
 	
 	private List<Entity> entities;
 	
 	public static Spritesheet spritesheet;
+	public static Spritesheet background;
 	
 	private BufferedImage image;
 	
-	private Player player;
+	public static Player player;
 	
 	public static World world;
 
@@ -42,11 +43,11 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 		addKeyListener(this);
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
-		world = new World("/map.png"); 
 		player = new Player(0,0,32,32, spritesheet.getSprite(0, 0, 32, 32));
+		world = new World("/map.png", "/background.png"); 
 		entities.add(player);
 	}
 	
@@ -89,7 +90,7 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 			this.createBufferStrategy(3);
 			return;
 		}
-		g.setColor(new Color(10,19,19));
+		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		world.render(g);
 		for(int i = 0; i < entities.size(); i++ ) {
