@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.kirby.main.Kirby;
+import com.kirby.world.World;
 
 
 public class Player extends Entity{
@@ -36,17 +37,20 @@ public class Player extends Entity{
 	public void tick(){
 		stopped = true;
 		moved = false;
-		if(right) {
+		if(right && World.isFree(this.getX() + (int)speed, this.getY())) {
 			stopped = false;
 			moved = true;
 			dir = right_dir;
 			x += speed;
 		} 	
-		else if(left) {
+		else if(left && World.isFree(this.getX() - (int)speed, this.getY())) {
 			stopped = false;
 			moved = true;
 			dir = left_dir;
 			x -= speed;
+		}
+		if(World.isFree(this.getX(), this.getY() + (int)speed)){
+			y+=speed;
 		}
 		if(moved) {
 			frames++;

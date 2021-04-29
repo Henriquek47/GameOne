@@ -26,7 +26,7 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 	private boolean isRunning = true;
 	public  final static int WIDTH = 360;
 	public static final int HEIGHT = 220;
-	private final int SCALE = 2;
+	private final int SCALE = 3;
 	
 	private List<Entity> entities;
 	
