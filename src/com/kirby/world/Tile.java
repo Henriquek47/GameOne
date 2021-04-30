@@ -8,6 +8,7 @@ import com.kirby.main.Kirby;
 public class Tile {
 	
 	public static BufferedImage TITLE_FLOOR = Kirby.spritesheet.getSprite(0, 128, 32, 32);
+	public static BufferedImage TITLE_FLOOR_MORE = Kirby.spritesheet.getSprite(32, 128, 32, 32);
 	public static BufferedImage TITLE_TRANSPARENT = Kirby.spritesheet.getSprite(32, 128, 32, 32);
 	
 	private BufferedImage sprite;

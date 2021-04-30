@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.kirby.entities.Enemy;
+import com.kirby.entities.Entity;
 import com.kirby.main.Kirby;
 
 public class World {
@@ -29,10 +31,14 @@ public class World {
 					int pixelAtual = pixels[xx + (yy * WIDTH)];
 					tiles[xx + (yy * WIDTH)] = new Tile(xx*32, yy*32, null);
 					if(pixelAtual == 0xFF4CFF00){
-						tiles[xx + (yy * WIDTH)] = new Floor_Tile(xx*30, yy*30, Tile.TITLE_FLOOR);
+						tiles[xx + (yy * WIDTH)] = new Floor_Tile(xx*32, yy*30, Tile.TITLE_FLOOR);
 					}else if(pixelAtual == 0xFFFF00DC){
 						Kirby.player.setX(xx*32);
 						Kirby.player.setY(yy*32);
+					}else if(pixelAtual == 0xFFFFD800){
+						tiles[xx + (yy * WIDTH)] = new Tile(xx*32, (int) (yy*30.3), Tile.TITLE_FLOOR_MORE);
+					}else if(pixelAtual == 0xFFFF0000){
+						Kirby.entities.add(new Enemy(xx*20, yy*32, 32, 32, Entity.ENEMY_SPRITESHEET));
 					}
 				}
 				}

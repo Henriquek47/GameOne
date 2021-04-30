@@ -9,13 +9,13 @@ import com.kirby.world.World;
 
 public class Player extends Entity{
 	
-	public boolean right, left, stopped_right, stopped_left;
+	public boolean right, left, stopped_right = true, stopped_left = false;
 	public int right_dir = 0, left_dir = 1;
 	public int dir = right_dir;
 	public double speed = 1.5;
 	private boolean stopped = true;
 	private boolean moved = false;
-	private int frames = 0, maxframes = 10, index = 0, maxIndex = 5;
+	private int frames = 0, maxframes = 8, index = 0, maxIndex = 5;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
 
@@ -38,12 +38,16 @@ public class Player extends Entity{
 		stopped = true;
 		moved = false;
 		if(right && World.isFree(this.getX() + (int)speed, this.getY())) {
+			stopped_left = false;
+			stopped_right = true;
 			stopped = false;
 			moved = true;
 			dir = right_dir;
 			x += speed;
 		} 	
 		else if(left && World.isFree(this.getX() - (int)speed, this.getY())) {
+			stopped_right = false;
+			stopped_left = true;
 			stopped = false;
 			moved = true;
 			dir = left_dir;
@@ -70,8 +74,11 @@ public class Player extends Entity{
 		}else if(dir == left_dir && stopped == false){
 			g.drawImage(leftPlayer[index], this.getX(), this.getY(), null);
 		}else{
-			//implementar stopped right e left
+			if(stopped_right == true && moved == false){
+			g.drawImage(Kirby.spritesheet.getSprite(0, 0, 32, 32), this.getX(), this.getY(), null);
+		}else if(stopped_left == true && moved == false){
 			g.drawImage(Kirby.spritesheet.getSprite(32*6, 128-32, 32, 32), this.getX(), this.getY(), null);
+		}
 		}	
 	}
 

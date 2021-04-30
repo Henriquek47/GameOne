@@ -3,6 +3,8 @@ package com.kirby.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.kirby.main.Kirby;
+
 public class Entity {
 	
 	protected double x;
@@ -10,6 +12,7 @@ public class Entity {
 	protected int width;
 	protected int height;
 	private BufferedImage sprite;
+	public static BufferedImage ENEMY_SPRITESHEET = Kirby.spritesheet.getSprite(0, 224-32, 32, 32);
 	
 	public Entity(int x, int y, int width, int height, BufferedImage sprite){
 		this.x = x;
