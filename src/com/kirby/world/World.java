@@ -38,7 +38,7 @@ public class World {
 					}else if(pixelAtual == 0xFFFFD800){
 						tiles[xx + (yy * WIDTH)] = new Tile(xx*32, (int) (yy*30.3), Tile.TITLE_FLOOR_MORE);
 					}else if(pixelAtual == 0xFFFF0000){
-						Kirby.entities.add(new Enemy(xx*20, yy*32, 32, 32, Entity.ENEMY_SPRITESHEET));
+						Kirby.entities.add(new Enemy(xx*32, yy*32, 32, 32, Entity.ENEMY_SPRITESHEET));
 					}
 				}
 				}
@@ -49,23 +49,22 @@ public class World {
 	}
 	
 	public static boolean isFree(int xnext, int ynext){
-		int x1 = xnext/ 32;
-		int y1 = ynext/ 32;
+		int x1 = xnext/TITLE_SIZE;
+		int Y1 = ynext/TITLE_SIZE;
 		
-		int x2 = (xnext + 32-1)/32;
-		int y2 = ynext/32;
+		int x2 = (xnext + TITLE_SIZE - 1)/TITLE_SIZE;
+		int Y2 = ynext/TITLE_SIZE;
 		
-		int x3 = xnext/32;
-		int y3 = (ynext+32-1)/32; 
+		int x3 = xnext/TITLE_SIZE;
+		int Y3 = (ynext + TITLE_SIZE - 1)/TITLE_SIZE;
 		
-		int x4 = (xnext + 32 - 1) / 32;
-		int y4 = (ynext + 32 - 1) / 32;
+		int x4 = (xnext + TITLE_SIZE - 1)/TITLE_SIZE;
+		int Y4 = (ynext + TITLE_SIZE - 1)/TITLE_SIZE;
 		
-		return !(tiles[x1 + (y1*World.WIDTH)] instanceof Floor_Tile ||
-				tiles[x2 + (y2*World.WIDTH)] instanceof Floor_Tile ||
-				tiles[x3 + (y3*World.WIDTH)] instanceof Floor_Tile ||
-				tiles[x4 + (y4*World.WIDTH)] instanceof Floor_Tile
-				);
+		return !(tiles[x1 + (Y1*World.WIDTH)] instanceof Floor_Tile ||
+				 tiles[x2 + (Y2*World.WIDTH)] instanceof Floor_Tile ||
+				 tiles[x3 + (Y3*World.WIDTH)] instanceof Floor_Tile ||
+				 tiles[x4 + (Y4*World.WIDTH)] instanceof Floor_Tile);
 	}
 	
 	public void render(Graphics g){

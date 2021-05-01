@@ -11,11 +11,10 @@ public class Enemy extends Entity{
 	public double speed = 0.5;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
-	private int frames = 0, maxframes = 8, index = 0, maxIndex = 4;
-	public boolean right, left, stopped_right = true, stopped_left = false;
-	public int right_dir = 0, left_dir = 1;
-	public int dir = right_dir;
-	public int chronometer = 0, chronometerMax = 40;
+	private int frames = 0, maxframes = 25, index = 0, maxIndex = 4;
+	public boolean right = true, left;
+	public int chronometer = 0, chronometerMax = 20, index2 = 0, maxIndex2 = 20;
+	public boolean troca = false;
 
 	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -26,23 +25,43 @@ public class Enemy extends Entity{
 		rightPlayer[i] = Kirby.spritesheet.getSprite(0 + (32 * i), 224, 32, 32);
 		}
 		for(int i = 0; i<5; i++) {
-			leftPlayer[i] = Kirby.spritesheet.getSprite(0 + (32 * i), 224 - 32, 32, 32);
+			leftPlayer[i] = Kirby.spritesheet.getSprite(0 + (32 * i), 32*6, 32, 32);
 			}
 		
 	}
 	
 	public void tick(){
-		System.out.println(chronometer);
-		if(right && World.isFree(this.getX() + (int)speed, this.getY()) && chronometer <= 20) {
-			dir = right_dir;
+		chronometer++;
+		if(chronometer == chronometerMax) {
+			chronometer = 0;
+			index2++;
+			System.out.println(index2);
+			if(index2 > maxIndex2) {
+				index2 = 0;
+			}
+		}
+		if(World.isFree(this.getX(), this.getY() + 1)){
+			y+=1;
+		}
+		if(index2 <= 10){
+			left = false;
+			right = true;
+		}else if(index2 > 11){
+			right = false;
+			left = true;
+		}
+		if(right && World.isFree((int)x + (int)speed, this.getY())) {
+			System.out.println("Entrou aqui2");
+			troca = false;
+			right = true;
 			x += speed;
 		}
-		else if(left && World.isFree(this.getX() - (int)speed, this.getY()) && chronometer > 21) {
-			dir = left_dir;
+		else if(left && World.isFree((int)x - (int)speed, this.getY())) {
+			System.out.println("entrou");
+			troca = true;
+			right = false;
+			left = true;
 			x -= speed;
-		}
-		if(World.isFree(this.getX(), this.getY() + (int)speed)){
-			y+=speed;
 		}
 		frames++;
 		if(frames == maxframes) {
@@ -52,16 +71,12 @@ public class Enemy extends Entity{
 				index = 0;
 			}
 		}
-		chronometer++;
-		if(chronometer == chronometerMax){
-			chronometer = 0;
-		}
 	}
 	
 	public void render(Graphics g){
-		if(dir == right_dir){
+		if(right && !troca){
 			g.drawImage(rightPlayer[index], this.getX(), this.getY(), null);
-		}else if(dir == left_dir){
+		}else if(left && troca){
 			g.drawImage(leftPlayer[index], this.getX(), this.getY(), null);
 		}
 	}
