@@ -35,7 +35,6 @@ public class Enemy extends Entity{
 		if(chronometer == chronometerMax) {
 			chronometer = 0;
 			index2++;
-			System.out.println(index2);
 			if(index2 > maxIndex2) {
 				index2 = 0;
 			}
@@ -51,13 +50,11 @@ public class Enemy extends Entity{
 			left = true;
 		}
 		if(right && World.isFree((int)x + (int)speed, this.getY())) {
-			System.out.println("Entrou aqui2");
 			troca = false;
 			right = true;
 			x += speed;
 		}
 		else if(left && World.isFree((int)x - (int)speed, this.getY())) {
-			System.out.println("entrou");
 			troca = true;
 			right = false;
 			left = true;
