@@ -18,6 +18,8 @@ public class Player extends Entity{
 	private int frames = 0, maxframes = 8, index = 0, maxIndex = 5;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
+	public boolean fly = false;
+	public int temp = 0;
 
 
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
@@ -53,9 +55,12 @@ public class Player extends Entity{
 			dir = left_dir;
 			x -= speed;
 		}
-		if(World.isFree(this.getX(), this.getY() + (int)speed)){
+		if(World.isFree(this.getX(), this.getY() + (int)speed) && fly == false){
 			y+=speed;
-		}
+		}else if(fly == true){
+				y-=speed;
+			}
+			
 		if(moved) {
 			frames++;
 			if(frames == maxframes) {
