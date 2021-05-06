@@ -19,9 +19,9 @@ public class Player extends Entity{
 	private BufferedImage[] leftPlayer;
 	public boolean fly = false;
 	private int framesWalk = 0, maxframesWalk = 8, indexWalk = 0, maxIndexWalk = 5;
-	private int framesAspire = 0, maxframesAspire = 8, indexAspire = 0, maxIndexAspire = 2;
-	public boolean aspire = false;
-	public int temp = 0, maxtemp = 60;
+	public int framesAspire = 0, maxframesAspire = 8, indexAspireOn = 0, maxIndexAspireOn = 2, indexAspireOff = 0, maxIndexAspireOff = 2;
+	public boolean aspire = false, aspireOffBool;
+	public int temp = 0, maxtemp = 120;
 	private BufferedImage[] aspireOn;
 	private BufferedImage[] aspireOff;
 
@@ -79,20 +79,27 @@ public class Player extends Entity{
 			}
 			if(framesAspire == maxframesAspire) {
 				framesAspire = 0;
-				indexAspire++;
-				if(indexAspire > maxIndexAspire) {
-					indexAspire = 0;
+				indexAspireOn++;
+				if(indexAspireOn > maxIndexAspireOn) {
+					indexAspireOn = 2;
+					System.out.println("Entrou on");
+				}if(aspireOffBool == true) {
+					indexAspireOff++;
+					System.out.println("Entrou off");
+				}if(indexAspireOff > maxIndexAspireOff) {
+					indexAspireOff = 2;
 				}
 			}
 		}
 	}
-	
 	public void render(Graphics g){
 		if(aspire && moved == false){
-			if(temp < 100000 ){
-			g.drawImage(aspireOn[indexAspire], this.getX(), this.getY(), null);
-			}else if(temp >= 30){
-				g.drawImage(aspireOff[indexAspire], this.getX(), this.getY(), null);
+			if(temp < 90 ){
+			g.drawImage(aspireOn[indexAspireOn], this.getX(), this.getY(), null);
+			}else if(temp >= 90){
+				indexAspireOn = 0;
+				aspireOffBool = true;
+				g.drawImage(aspireOff[indexAspireOff], this.getX(), this.getY(), null);
 			}
 		}else if(dir == right_dir && stopped == false  && aspire == false){
 			g.drawImage(rightPlayer[indexWalk], this.getX(), this.getY(), null);

@@ -142,9 +142,9 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 				player.fly = true;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_X) {
-			if(player.temp >= 100000000){
+			if(player.temp >= 120){
 				player.aspire = false;
-			}else if(player.temp < 1000000){
+			}else if(player.temp < 120){
 				player.aspire = true;
 			}
 			}
@@ -165,6 +165,9 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_X) {
 			player.aspire = false;
+			player.temp = 0;
+			player.indexAspireOn = 0;
+			player.indexAspireOff = 0;
 			}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT ||
 				e.getKeyCode() == KeyEvent.VK_D) {
