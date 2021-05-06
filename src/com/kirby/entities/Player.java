@@ -20,8 +20,8 @@ public class Player extends Entity{
 	public boolean fly = false;
 	private int framesWalk = 0, maxframesWalk = 8, indexWalk = 0, maxIndexWalk = 5;
 	public int framesAspire = 0, maxframesAspire = 8, indexAspireOn = 0, maxIndexAspireOn = 2, indexAspireOff = 0, maxIndexAspireOff = 2;
-	public boolean aspire = false, aspireOffBool;
-	public int temp = 0, maxtemp = 120;
+	public boolean aspire = false, aspireOffBool = false, aspireTemp = true;
+	public int temp = 0, maxtemp = 120, tempCd = 0, maxTempCd = 60;
 	private BufferedImage[] aspireOn;
 	private BufferedImage[] aspireOff;
 
@@ -70,13 +70,12 @@ public class Player extends Entity{
 					indexWalk = 0;
 				}
 			}
-		}
-		if(moved == false && aspire) {
+		}	
+		if(moved == false && aspire && aspireTemp) {
+			if(tempCd < 120 && aspireTemp) {
+			tempCd++;	
 			temp++;
 			framesAspire++;
-			System.out.println(temp);
-			if(temp == maxtemp){
-			}
 			if(framesAspire == maxframesAspire) {
 				framesAspire = 0;
 				indexAspireOn++;
@@ -91,6 +90,15 @@ public class Player extends Entity{
 				}
 			}
 		}
+	  }
+		if(aspire == false && tempCd > 0) {
+			tempCd--;
+			aspireTemp = false;
+			if(tempCd == 0) {
+				aspireTemp = true;
+			}
+		}
+		System.out.println(tempCd);
 	}
 	public void render(Graphics g){
 		if(aspire && moved == false){

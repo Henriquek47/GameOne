@@ -144,7 +144,7 @@ public class Kirby extends Canvas implements Runnable, KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_X) {
 			if(player.temp >= 120){
 				player.aspire = false;
-			}else if(player.temp < 120){
+			}else if(player.temp < 120 && player.aspireTemp == true){
 				player.aspire = true;
 			}
 			}
