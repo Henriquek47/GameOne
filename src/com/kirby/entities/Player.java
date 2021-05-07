@@ -17,7 +17,8 @@ public class Player extends Entity{
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
-	public boolean fly = false;
+	public int jumpHeight = 32, jumpFrames = 0;
+	public boolean jump = false, isJumping = false;
 	private int framesWalk = 0, maxframesWalk = 8, indexWalk = 0, maxIndexWalk = 5;
 	public int framesAspire = 0, maxframesAspire = 8, indexAspireOn = 0, maxIndexAspireOn = 2, indexAspireOff = 0, maxIndexAspireOff = 2;
 	public boolean aspire = false, aspireOffBool = false, aspireTemp = true;
@@ -55,11 +56,28 @@ public class Player extends Entity{
 			dir = left_dir;
 			x -= speed;
 		}
-		if(World.isFree(this.getX(), this.getY() + (int)speed) && fly == false){
-			y+=speed;
-		}else if(fly == true){
-				y-=speed;
-			}
+		if(World.isFree(this.getX(), this.getY() + 2) && jump == false){
+			y+=2;
+		}if(jump && !World.isFree(this.getX(), this.getY() + 1)) {
+			isJumping = true;
+		}else {
+			jump = false;
+		}
+		if(isJumping) {
+			 if(World.isFree(this.getX(), this.getY())) {
+				 y -= 5;
+				 jumpFrames+=2;
+				 if(jumpFrames == jumpHeight) {
+					 isJumping = false;
+					 jump = false;
+					 jumpFrames = 0;
+				 }
+			 }else {
+				 isJumping = false;
+				 jump = false;
+				 jumpFrames = 0;
+			 }
+		}
 			
 		if(moved) {
 			framesWalk++;
@@ -98,7 +116,6 @@ public class Player extends Entity{
 				aspireTemp = true;
 			}
 		}
-		System.out.println(tempCd);
 	}
 	public void render(Graphics g){
 		if(aspire && moved == false){
